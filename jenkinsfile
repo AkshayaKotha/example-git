@@ -1,30 +1,32 @@
-pipeline
-{
-agent any
-stages{
-stage('checkout'){
-steps{
-git branch:'main',url:'https://github.com/AkshayaKotha/example-git.git'
-}
-}
-stage('Deploy'){
-steps{
-sh '''
-mkdir-p deployed-html
-cp * html deployed-html/
-'''
-}
-}
-}
-post{
-success{
-publishHTML(target:[
-allowMissing: false,
-keepAll: true,
-reportDir: 'deployed_html',
-reportFile: 'form.html',
-reportName: 'MY Webpage'
-])
-}
-}
+pipeline {
+    agent any
+
+    stages {
+        stage('Checkout') {
+            steps {
+                git branch: 'main', url: '.git'
+            }
+        }
+
+        stage('Deploy') {
+            steps {
+                sh '''
+                    mkdir -p deployed_html
+                    cp crf.html deployed_html/
+                '''
+            }
+        }
+    }
+
+    post {
+        success {
+            publishHTML(target: [
+                allowMissing: false,
+                keepAll: true,
+                reportDir: 'deployed_html',
+                reportFiles: 'crf.html',
+                reportName: 'My Webpage'
+            ])
+        }
+    }
 }
