@@ -9,9 +9,22 @@ git branch:'main',url:'https://github.com/AkshayaKotha/example-git'
 }
 stage('Deploy'){
 steps{
-sh"'
+sh '''
 mkdir-p deployed-html
 cp * html deployed-html/
-"'
+'''
+}
+}
+}
+post{
+success{
+publishHTML(target:[
+allowMissing: false,
+keepAll: true,
+reportDir: 'deployed_html',
+reportFile: 'form.html',
+reportName: 'MY Webpage'
+])
+}
 }
 }
